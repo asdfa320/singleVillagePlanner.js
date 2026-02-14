@@ -155,13 +155,13 @@ var translations = {
         'Script configuration was reset!': 'Script configuration was reset!',
     },
     el_GR: {
-        'Single Village Planner': 'Î‘Ď„ÎżÎĽÎąÎşĎŚ Î Î»Î¬Î˝Îż Î§Ď‰ĎÎąÎżĎŤ',
+        'Single Village Planner': 'Î‘Ď„ÎżÎĽÎąÎĎŚ Î Î»Î¬Î˝Îż Î§Ď‰ĎÎąÎżĎŤ',
         Help: 'Î’ÎżÎ®Î¸ÎµÎąÎ±',
         'This script can only be run on a single village screen!':
-            'Î‘Ď…Ď„Îż Ď„Îż Script Ď„ĎÎ­Ď‡ÎµÎą Î±Ď€Îż Î Î»Î·ĎÎżĎ†ÎżĎÎŻÎµĎ‚ Î§Ď‰ĎÎąÎżĎŤ!',
+            'Î‘Ď…Ď„Îż Ď„Îż Script Ď„ĎÎ­Ď‡ÎµÎą Î±Ď€Îź Î Î»Î·ĎÎżĎ†ÎżĎÎŻÎµĎ‚ Î§Ď‰ĎÎąÎżĎŤ!',
         Village: 'Î§Ď‰ĎÎąĎŚ',
-        'Calculate Launch Times': 'ÎĄĎ€ÎżÎ»ĎŚÎłÎąĎÎµ ÎŹĎÎ± Î•ÎşÎşÎŻÎ˝Î·ĎÎ·Ď‚',
-        Reset: 'Î•Ď€Î±Î˝Î±Ď†ÎżĎÎ¬',
+        'Calculate Launch Times': 'ÎĄĎ€ÎżÎ»ÎĎłÎ±ĎÎµ ÎŹĎÎ± Î•ÎşÎşÎŻÎ˝Î·ĎÎ·Ď‚',
+        Reset: 'Î•Ď€ÎąÎ˝ÎąĎ†ÎżĎÎ¬',
         'Launch times are being calculated ...':
             'ÎźÎą Ď‡ĎĎŚÎ˝ÎżÎą ÎµÎşÎşÎŻÎ˝Î·ĎÎ·Ď‚ Ď…Ď€ÎżÎ»ÎżÎłÎŻÎ¶ÎżÎ˝Ď„Î±Îą ...',
         'Missing user input!': 'Î›ÎµÎŻĎ€ÎżĎ…Î˝ Ď„Î± Î´ÎµÎ´ÎżÎĽÎ­Î˝Î±!',
@@ -176,14 +176,14 @@ var translations = {
         Unit: 'ÎśÎżÎ˝Î¬Î´Î±',
         'Launch Time': 'ÎŹĎÎ± ÎµÎşÎşÎŻÎ˝Î·ĎÎ·Ď‚',
         Command: 'Î•Î˝Ď„ÎżÎ»Î®',
-        Status: 'ÎšÎ±Ď„Î¬ĎĎ„Î±ĎÎ·',
+        Status: 'ÎšÎąĎ„Î¬ĎĎ„Î±ĎÎ·',
         Send: 'ÎŁĎ„ÎµÎŻÎ»Îµ',
         From: 'Î‘Ď€ĎŚ',
-        Priority: 'Î ĎÎżĎ„ÎµĎÎ±ÎąĎŚĎ„Î·Ď„Î±',
+        Priority: 'Î ĎÎżĎ„ÎµĎÎąÎąĎŚĎ„Î·Ď„Î±',
         'Early send': 'ÎŁĎ„Î¬Î»Î¸Î·ÎşÎ±Î˝ Î˝Ď‰ĎÎŻĎ„ÎµĎÎ±',
         'Landing time was updated!': 'Î— ĎŽĎÎ± Î¬Ď†ÎąÎľÎ·Ď‚ Î±Î˝Î±Î˝ÎµĎŽÎ¸Î·ÎşÎµ!',
         'Error fetching village groups!':
-            'ÎŁĎ†Î¬Î»ÎĽÎ± ÎşÎ±Ď„Î¬ Ď„Î·Î˝ Î±Î˝Î¬ÎşĎ„Î·ĎÎ· ÎżÎĽÎ¬Î´Ď‰Î˝ Ď‡Ď‰ĎÎąĎŽÎ˝!',
+            'ÎŁĎ†Î¬Î»ÎĽÎ± ÎşÎ±Ď„Î¬ Ď„Î·Î˝ Î±Î˝Î¬ÎşĎ„Î·ĎÎ· ÎżÎĽÎ¬Î´Ď‰Î˝ Ď‡Ď‰ĎÎąÎŽÎ˝!',
         'Dist.': 'Î‘Ď€ĎŚĎĎ„Î±ĎÎ·',
         'Villages list could not be fetched!':
             'Villages list could not be fetched!',
@@ -367,6 +367,21 @@ if (LAST_UPDATED_TIME !== null) {
     fetchUnitInfo();
 }
 
+// --------------------------------------------------------------
+// NEW: Reliable destination coordinates extraction
+// --------------------------------------------------------------
+function getDestinationCoords() {
+    // Try from URL hash (e.g., #;490|527)
+    const hash = window.location.hash.replace('#', '').trim();
+    if (hash && hash.includes(';')) {
+        return hash.replace(';', '|');
+    }
+
+    // Fallback: search for "XXX|YYY" pattern in the page content
+    const match = jQuery('#content_value').text().match(/(\d+\|\d+)/);
+    return match ? match[1] : '';
+}
+
 // Initialize Attack Planner
 async function initAttackPlanner(groupId) {
     // run on script load
@@ -374,9 +389,10 @@ async function initAttackPlanner(groupId) {
     troopCounts = await fetchTroopsForCurrentGroup(groupId);
     let villages = await fetchAllPlayerVillagesByGroup(groupId);
 
-    const destinationVillage = jQuery(
-        '#content_value table table td:eq(2)'
-    ).text();
+    // ----------------------------------------------------------
+    // Use the new function to get destination coordinates
+    // ----------------------------------------------------------
+    const destinationVillage = getDestinationCoords();
 
     villages = villages.map((item) => {
         const distance = calculateDistance(item.coords, destinationVillage);
@@ -599,9 +615,10 @@ function calculateLaunchTimes() {
         e.preventDefault();
 
         const landingTimeString = jQuery('#raLandingTime').val().trim();
-        const destinationVillage = jQuery(
-            '#content_value table table td:eq(2)'
-        ).text();
+        // ----------------------------------------------------------
+        // Use the new function to get destination coordinates
+        // ----------------------------------------------------------
+        const destinationVillage = getDestinationCoords();
 
         let villagesUnitsToSend = [];
 
