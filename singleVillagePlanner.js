@@ -602,6 +602,11 @@ function calculateLaunchTimes() {
         const landingTimeString = jQuery('#raLandingTime').val().trim();
         const destinationVillage = window.getDestinationVillageCoords();
 
+        if (!destinationVillage) {
+            UI.ErrorMessage(tt('Missing user input!'));
+            return;
+        }
+
         let villagesUnitsToSend = [];
 
         // collect user input
@@ -1334,6 +1339,9 @@ window.getDestinationVillageCoords = function () {
     const hash = window.location.hash.replace('#', '').trim();
     if (hash && hash.includes(';')) {
         return hash.replace(';', '|');
+    }
+    if (hash && hash.includes('|')) {
+        return hash;
     }
 
     const match = jQuery('#content_value')
