@@ -133,7 +133,7 @@ var translations = {
         'No possible combinations found!': 'Geen mogelijkheden gevonden!',
         'Export Plan as BB Code': 'Exporteer plan als BB Code',
         'Plan for:': 'Plan voor:',
-        'Landing Time:': 'Landingstijd:',
+        'Landing Time': 'Landingstijd:',
         Unit: 'Eenheid',
         'Launch Time': 'Verzendtijd',
         Command: 'Bevel',
@@ -213,7 +213,7 @@ var translations = {
         'No possible combinations found!': 'Nessuna combinazione possibile!',
         'Export Plan as BB Code': 'Esporta il plan in BB code',
         'Plan for:': 'Plan per:',
-        'Landing Time:': 'Tempo di arrivo:',
+        'Landing Time': 'Tempo di arrivo:',
         Unit: 'UnitĂ ',
         'Launch Time': 'Tempo di lancio',
         Command: 'Comando',
@@ -373,7 +373,7 @@ async function initAttackPlanner(groupId) {
     troopCounts = await fetchTroopsForCurrentGroup(groupId);
     let villages = await fetchAllPlayerVillagesByGroup(groupId);
 
-    const destinationVillage = window.getDestinationVillageCoords();
+    const destinationVillage = getDestinationVillageCoords();
 
     villages = villages.map((item) => {
         const distance = calculateDistance(item.coords, destinationVillage);
@@ -591,7 +591,7 @@ function calculateLaunchTimes() {
         e.preventDefault();
 
         const landingTimeString = jQuery('#raLandingTime').val().trim();
-        const destinationVillage = window.getDestinationVillageCoords();
+        const destinationVillage = getDestinationVillageCoords();
 
         if (!destinationVillage) {
             UI.ErrorMessage(tt('Missing user input!'));
@@ -911,8 +911,13 @@ function getLandingTime(landingTime) {
     return landingTimeObject;
 }
 
+// Helper: Get parameter by name
+function getParameterByName(name, url = window.location.href) {
+    return new URL(url).searchParams.get(name);
+}
+
 // Helper: Get destination coords from hash or page text
-window.getDestinationVillageCoords = function () {
+function getDestinationVillageCoords() {
     const hash = window.location.hash.replace('#', '').trim();
     if (hash && hash.includes(';')) {
         return hash.replace(';', '|');
@@ -926,7 +931,9 @@ window.getDestinationVillageCoords = function () {
         .match(/(\d{3}\|\d{3})/);
 
     return match ? match[1] : '';
-};
+}
+
+window.getDestinationVillageCoords = getDestinationVillageCoords;
 
 // Helper: Generates script info
 function scriptInfo() {
