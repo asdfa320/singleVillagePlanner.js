@@ -28,7 +28,7 @@ if (typeof DEBUG !== 'boolean') DEBUG = false;
 
 // Constants
 var LS_PREFIX = 'raSingleVillagePlanner';
-var TIME_INTERVAL = 60 * 60 * 1000 * 24 * 365; // unit info does not change during the whole world duration so we only need to get it once
+var TIME_INTERVAL = 60 * 60 * 1000 * 24 * 365;
 var GROUP_ID = localStorage.getItem(`${LS_PREFIX}_chosen_group`) ?? 0;
 var LAST_UPDATED_TIME = localStorage.getItem(`${LS_PREFIX}_last_updated`) ?? 0;
 
@@ -369,7 +369,6 @@ if (LAST_UPDATED_TIME !== null) {
 
 // Initialize Attack Planner
 async function initAttackPlanner(groupId) {
-    // run on script load
     const groups = await fetchVillageGroups();
     troopCounts = await fetchTroopsForCurrentGroup(groupId);
     let villages = await fetchAllPlayerVillagesByGroup(groupId);
@@ -391,30 +390,24 @@ async function initAttackPlanner(groupId) {
     const content = prepareContent(villages, groups);
     renderUI(content);
 
-    // after script has been loaded events
     setTimeout(function () {
-        // set a default landing time
         const today = new Date().toLocaleString('en-GB').replace(',', '');
         jQuery('#raLandingTime').val(today);
 
-        // handle non-archer worlds
         if (!game_data.units.includes('archer')) {
             jQuery('.archer-world').hide();
         }
 
-        // handle non-paladin worlds
         if (!game_data.units.includes('knight')) {
             jQuery('.paladin-world').hide();
         }
     }, 100);
 
-    // scroll to element to focus user's attention
     jQuery('html,body').animate(
         { scrollTop: jQuery('#raSingleVillagePlanner').offset().top - 8 },
         'slow'
     );
 
-    // action handlers
     choseUnit();
     changeVillagePriority();
     calculateLaunchTimes();
@@ -550,7 +543,6 @@ function renderUI(body) {
 // Action Handler: Here is the logic to collect units
 function choseUnit() {
     jQuery('.ra-table td img').on('click', function () {
-        // toggle state of chosen unit
         jQuery(this)
             .parent()
             .parent()
@@ -559,7 +551,6 @@ function choseUnit() {
             .removeClass('ra-selected-unit');
         jQuery(this).toggleClass('ra-selected-unit');
 
-        // toggle state of chosen village
         jQuery('#raAttackPlannerTable tbody tr').each(function () {
             const isAnyUnitSelected = jQuery(this).find(
                 'img.ra-selected-unit'
@@ -609,7 +600,6 @@ function calculateLaunchTimes() {
 
         let villagesUnitsToSend = [];
 
-        // collect user input
         jQuery('#raAttackPlannerTable .ra-selected-unit').each(function () {
             const id = parseInt(jQuery(this).attr('data-village-id'));
             const unit = jQuery(this).attr('data-unit-type');
@@ -624,11 +614,11 @@ function calculateLaunchTimes() {
             const distance = calculateDistance(coords, destinationVillage);
 
             villagesUnitsToSend.push({
-                id: id,
-                unit: unit,
-                coords: coords,
+                id,
+                unit,
+                coords,
                 highPrio: isPrioVillage,
-                distance: distance,
+                distance,
             });
         });
 
@@ -735,7 +725,6 @@ function setAllUnits() {
 function getPlans(landingTime, destinationVillage, villagesUnitsToSend) {
     let plans = [];
 
-    // Prepare plans list
     villagesUnitsToSend.forEach((item) => {
         const launchTime = getLaunchTime(item.unit, landingTime, item.distance);
         const plan = {
@@ -752,19 +741,13 @@ function getPlans(landingTime, destinationVillage, villagesUnitsToSend) {
         plans.push(plan);
     });
 
-    // Sort times array by nearest launch time
     plans.sort((a, b) => {
         return a.launchTime - b.launchTime;
     });
 
-    console.debug('plans', plans);
-
-    // Filter only valid launch times
     const filteredPlans = plans.filter((item) => {
         return item.launchTime >= getServerTime().getTime();
     });
-
-    console.debug('filteredPlans', filteredPlans);
 
     return filteredPlans;
 }
@@ -926,412 +909,6 @@ function getLandingTime(landingTime) {
         year + '-' + month + '-' + day + ' ' + landingHour;
     const landingTimeObject = new Date(landingTimeFormatted);
     return landingTimeObject;
-}
-
-// Helper: Render own villages table
-function renderVillagesTable(villages) {
-    if (villages.length) {
-        const destinationVillage = window.getDestinationVillageCoords();
-
-        let villagesTable = `
-		<table id="raAttackPlannerTable" class="ra-table" width="100%">
-			<thead>
-				<tr>
-					<th class="ra-text-left" width="25%">
-						${tt('Village')} (${villages.length})
-					</th>
-					<th class="5%">
-						${tt('Dist.')}
-					</th>
-					<th width="5%">
-						${tt('Prio.')}
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_spear.webp" data-set-unit="spear">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_sword.webp" data-set-unit="sword">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_axe.webp" data-set-unit="axe">
-					</th>
-					<th class="archer-world ra-unit-toggle">
-						<img src="/graphic/unit/unit_archer.webp" data-set-unit="archer">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_spy.webp" data-set-unit="spy">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_light.webp" data-set-unit="light">
-					</th>
-					<th class="archer-world ra-unit-toggle">
-						<img src="/graphic/unit/unit_marcher.webp" data-set-unit="marcher">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_heavy.webp" data-set-unit="heavy">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_ram.webp" data-set-unit="ram">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_catapult.webp" data-set-unit="catapult">
-					</th>
-					<th class="paladin-world ra-unit-toggle">
-						<img src="/graphic/unit/unit_knight.webp" data-set-unit="knight">
-					</th>
-					<th class="ra-unit-toggle">
-						<img src="/graphic/unit/unit_snob.webp" data-set-unit="snob">
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-	`;
-
-        const villageCombinations = [];
-        villages.forEach((village) => {
-            troopCounts.forEach((villageTroops) => {
-                if (villageTroops.villageId === village.id) {
-                    villageCombinations.push({
-                        ...village,
-                        ...villageTroops,
-                    });
-                }
-            });
-        });
-
-        villageCombinations.forEach((village) => {
-            const {
-                name,
-                coords,
-                id,
-                spear,
-                sword,
-                axe,
-                archer,
-                spy,
-                light,
-                marcher,
-                heavy,
-                ram,
-                catapult,
-                knight,
-                snob,
-                distance,
-            } = village;
-
-            const continent = getContinentByCoord(coords);
-            const link = game_data.link_base_pure + `info_village&id=${id}`;
-
-            villagesTable += `
-			<tr>
-				<td class="ra-text-left" width="25%">
-					<a href="${link}" target="_blank" rel="noopener noreferrer">
-						${name} (${coords}) K${continent}
-					</a>
-				</td>
-				<td width="5%">
-					${distance}
-				</td>
-				<td width="5%">
-					<span class="icon header favorite_add"></span>
-				</td>
-				<td>
-					<img data-unit-type="spear" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_spear.webp">
-					<span>${formatAsNumber(spear)}</span>
-				</td>
-				<td>
-					<img data-unit-type="sword" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_sword.webp">
-					<span>${formatAsNumber(sword)}</span>
-				</td>
-				<td>
-					<img data-unit-type="axe" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_axe.webp">
-					<span>${formatAsNumber(axe)}</span>
-				</td>
-				<td class="archer-world">
-					<img data-unit-type="archer" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_archer.webp">
-					<span>${formatAsNumber(archer)}</span>
-				</td>
-				<td>
-					<img data-unit-type="spy" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_spy.webp">
-					<span>${formatAsNumber(spy)}</span>
-				</td>
-				<td>
-					<img data-unit-type="light" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_light.webp">
-					<span>${formatAsNumber(light)}</span>
-				</td>
-				<td class="archer-world">
-					<img data-unit-type="marcher" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_marcher.webp">
-					<span>${formatAsNumber(marcher)}</span>
-				</td>
-				<td>
-					<img data-unit-type="heavy" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_heavy.webp">
-					<span>${formatAsNumber(heavy)}</span>
-				</td>
-				<td>
-					<img data-unit-type="ram" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_ram.webp">
-					<span>${formatAsNumber(ram)}</span>
-				</td>
-				<td>
-					<img data-unit-type="catapult" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_catapult.webp">
-					<span>${formatAsNumber(catapult)}</span>
-				</td>
-				<td class="paladin-world">
-					<img data-unit-type="knight" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_knight.webp">
-					<span>${formatAsNumber(knight)}</span>
-				</td>
-				<td>
-					<img data-unit-type="snob" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_snob.webp">
-					<span>${formatAsNumber(snob)}</span>
-				</td>
-			</tr>
-		`;
-        });
-
-        villagesTable += `
-			</tbody>
-		</table>
-	`;
-
-        return villagesTable;
-    } else {
-        return `<p><b>${tt('Villages list could not be fetched!')}</b><br></p>`;
-    }
-}
-
-// Helper: Render groups filter
-function renderGroupsFilter(groups) {
-    const groupId = localStorage.getItem(`${LS_PREFIX}_chosen_group`) || 0;
-    let groupsFilter = `
-		<select name="ra_groups_filter" id="raGroupsFilter">
-	`;
-
-    for (const [_, group] of Object.entries(groups.result)) {
-        const { group_id, name } = group;
-        const isSelected =
-            parseInt(group_id) === parseInt(groupId) ? 'selected' : '';
-        if (name !== undefined) {
-            groupsFilter += `
-				<option value="${group_id}" ${isSelected}>
-					${name}
-				</option>
-			`;
-        }
-    }
-
-    groupsFilter += `
-		</select>
-	`;
-
-    return groupsFilter;
-}
-
-// Helper: Process coordinate and extract coordinate continent
-function getContinentByCoord(coord) {
-    if (!coord) return '';
-    const coordParts = coord.split('|');
-    return coordParts[1].charAt(0) + coordParts[0].charAt(0);
-}
-
-// Helper: Fetch player villages by group
-async function fetchAllPlayerVillagesByGroup(groupId) {
-    let villagesByGroup = [];
-
-    try {
-        const url =
-            game_data.link_base_pure + 'groups&ajax=load_villages_from_group';
-        villagesByGroup = await jQuery
-            .post({
-                url: url,
-                data: { group_id: groupId },
-            })
-            .then((response) => {
-                const parser = new DOMParser();
-                const htmlDoc = parser.parseFromString(
-                    response.html,
-                    'text/html'
-                );
-                const tableRows = jQuery(htmlDoc)
-                    .find('#group_table > tbody > tr')
-                    .not(':eq(0)');
-
-                let villagesList = [];
-
-                tableRows.each(function () {
-                    const villageId =
-                        jQuery(this)
-                            .find('td:eq(0) a')
-                            .attr('data-village-id') ??
-                        jQuery(this)
-                            .find('td:eq(0) a')
-                            .attr('href')
-                            .match(/\d+/)[0];
-                    const villageName = jQuery(this)
-                        .find('td:eq(0)')
-                        .text()
-                        .trim();
-                    const villageCoords = jQuery(this)
-                        .find('td:eq(1)')
-                        .text()
-                        .trim();
-
-                    villagesList.push({
-                        id: parseInt(villageId),
-                        name: villageName,
-                        coords: villageCoords,
-                    });
-                });
-
-                return villagesList;
-            })
-            .catch((error) => {
-                UI.ErrorMessage(tt('Villages list could not be fetched!'));
-                return [];
-            });
-    } catch (error) {
-        console.error(`${scriptInfo()} Error:`, error);
-        UI.ErrorMessage(tt('Villages list could not be fetched!'));
-        return [];
-    }
-
-    return villagesByGroup;
-}
-
-// Helper: Fetch village groups
-async function fetchVillageGroups() {
-    const villageGroups = await jQuery
-        .get(
-            game_data.link_base_pure +
-                'groups&mode=overview&ajax=load_group_menu'
-        )
-        .then((response) => response)
-        .catch((error) => {
-            UI.ErrorMessage('Error fetching village groups!');
-            console.error(`${scriptInfo()} Error:`, error);
-        });
-
-    return villageGroups;
-}
-
-// Helper: Fetch World Unit Info
-function fetchUnitInfo() {
-    jQuery
-        .ajax({
-            url: '/interface.php?func=get_unit_info',
-        })
-        .done(function (response) {
-            unitInfo = xml2json($(response));
-            localStorage.setItem(
-                `${LS_PREFIX}_unit_info`,
-                JSON.stringify(unitInfo)
-            );
-            localStorage.setItem(
-                `${LS_PREFIX}_last_updated`,
-                Date.parse(new Date())
-            );
-        });
-}
-
-// Helper: Fetch home troop counts for current group
-async function fetchTroopsForCurrentGroup() {
-    const groupId = jQuery('.ra-group-filter.btn-confirm-yes').attr(
-        'data-group-id'
-    );
-    const troopsForGroup = await jQuery
-        .get(
-            game_data.link_base_pure +
-                `overview_villages&mode=combined&group=${groupId}&`
-        )
-        .then((response) => {
-            const htmlDoc = jQuery.parseHTML(response);
-            const combinedTableRows = jQuery(htmlDoc).find(
-                '#combined_table tr.nowrap'
-            );
-            const combinedTableHead = jQuery(htmlDoc).find(
-                '#combined_table tr:eq(0) th'
-            );
-
-            const homeTroops = [];
-            const combinedTableHeader = [];
-
-            // collect possible buildings and troop types
-            jQuery(combinedTableHead).each(function () {
-                const thImage = jQuery(this).find('img').attr('src');
-                if (thImage) {
-                    let thImageFilename = thImage.split('/').pop();
-                    thImageFilename = thImageFilename.replace('.webp', '');
-                    combinedTableHeader.push(thImageFilename);
-                } else {
-                    combinedTableHeader.push(null);
-                }
-            });
-
-            // collect possible troop types
-            combinedTableRows.each(function () {
-                let rowTroops = {};
-
-                combinedTableHeader.forEach((tableHeader, index) => {
-                    if (tableHeader) {
-                        if (tableHeader.includes('unit_')) {
-                            const villageId = jQuery(this)
-                                .find('td:eq(1) span.quickedit-vn')
-                                .attr('data-id');
-                            const unitType = tableHeader.replace('unit_', '');
-                            rowTroops = {
-                                ...rowTroops,
-                                villageId: parseInt(villageId),
-                                [unitType]: parseInt(
-                                    jQuery(this).find(`td:eq(${index})`).text()
-                                ),
-                            };
-                        }
-                    }
-                });
-
-                homeTroops.push(rowTroops);
-            });
-
-            return homeTroops;
-        })
-        .catch((error) => {
-            UI.ErrorMessage(
-                tt('An error occured while fetching troop counts!')
-            );
-            console.error(`${scriptInfo()} Error:`, error);
-        });
-
-    return troopsForGroup;
-}
-
-// Helper: XML to JSON converter
-var xml2json = function ($xml) {
-    var data = {};
-    $.each($xml.children(), function (i) {
-        var $this = $(this);
-        if ($this.children().length > 0) {
-            data[$this.prop('tagName')] = xml2json($this);
-        } else {
-            data[$this.prop('tagName')] = $.trim($this.text());
-        }
-    });
-    return data;
-};
-
-// Helper: Clear script configuration
-function resetScriptConfig() {
-    localStorage.removeItem(`${LS_PREFIX}_unit_info`);
-    localStorage.removeItem(`${LS_PREFIX}_chosen_group`);
-    localStorage.removeItem(`${LS_PREFIX}_last_updated`);
-    UI.SuccessMessage(tt('Script configuration was reset!'));
-}
-
-// Helper: Format as number
-function formatAsNumber(number) {
-    return parseInt(number).toLocaleString('de');
-}
-
-// Helper: Get parameter by name
-function getParameterByName(name, url = window.location.href) {
-    return new URL(url).searchParams.get(name);
 }
 
 // Helper: Get destination coords from hash or page text
