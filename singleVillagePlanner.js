@@ -85,7 +85,7 @@ var translations = {
         'Calculate Launch Times': 'VĂ˝poÄŤet ÄŤasov odoslania',
         Reset: 'Reset',
         'Launch times are being calculated ...':
-            'ÄŚasy odoslania sa vypoÄŤĂ­tavajĂş ...',
+            'ÄŚasy odoslania sa vypoÄ��Ă­tavajĂş ...',
         'Missing user input!': 'ChĂ˝ba oznaÄŤenie jednotiek!',
         'Landing Time': 'ÄŚas dopadu',
         'This village has no unit selected!':
@@ -249,7 +249,7 @@ var translations = {
         'No possible combinations found!': 'OlasÄ± kombinasyon bulunamadÄ±!',
         'Export Plan as BB Code': 'PlanÄ± BB Kodu Olarak DÄ±Ĺźa Aktar',
         'Plan for:': 'Plan iĂ§in:',
-        'Landing Time:': 'Ä°niĹź zamanÄ±:',
+        'Landing Time': 'Ä°niĹź zamanÄ±:',
         Unit: 'Birim',
         'Launch Time': 'BaĹźlatma ZamanÄ±:',
         Command: 'Komut',
@@ -1326,43 +1326,18 @@ function getParameterByName(name, url = window.location.href) {
     return new URL(url).searchParams.get(name);
 }
 
-// Helper: Get destination coords from hash or "Súradnice" row
+// Helper: Get destination coords from hash or page text
 function getDestinationVillageCoords() {
     const hash = window.location.hash.replace('#', '').trim();
     if (hash && hash.includes(';')) {
         return hash.replace(';', '|');
     }
 
-    const labelCandidates = [
-        'Súradnice',
-        'Coords',
-        'Coordinate',
-        'Coordinates',
-        'Koordinat',
-        'Koordinaten',
-        'Coordonnées',
-        'Συντεταγμένες',
-    ];
+    const match = jQuery('#content_value')
+        .text()
+        .match(/(\d{3}\|\d{3})/);
 
-    let coords = '';
-
-    jQuery('#content_value table tr').each(function () {
-        const label = jQuery(this)
-            .find('td:first')
-            .text()
-            .trim()
-            .replace(':', '');
-        if (labelCandidates.includes(label)) {
-            coords = jQuery(this).find('td:eq(1)').text().trim();
-            return false;
-        }
-    });
-
-    const match = coords.match(/(\d{3}\|\d{3})/);
-    if (match) return match[1];
-
-    const fallback = jQuery('#content_value').text().match(/(\d{3}\|\d{3})/);
-    return fallback ? fallback[1] : '';
+    return match ? match[1] : '';
 }
 
 // Helper: Generates script info
