@@ -85,7 +85,7 @@ var translations = {
         'Calculate Launch Times': 'VĂ˝poÄŤet ÄŤasov odoslania',
         Reset: 'Reset',
         'Launch times are being calculated ...':
-            'ÄŚasy odoslania sa vypoÄ��Ă­tavajĂş ...',
+            'ÄŚasy odoslania sa vypoÄŤĂ­tavajĂş ...',
         'Missing user input!': 'ChĂ˝ba oznaÄŤenie jednotiek!',
         'Landing Time': 'ÄŚas dopadu',
         'This village has no unit selected!':
@@ -374,7 +374,7 @@ async function initAttackPlanner(groupId) {
     troopCounts = await fetchTroopsForCurrentGroup(groupId);
     let villages = await fetchAllPlayerVillagesByGroup(groupId);
 
-    const destinationVillage = getDestinationVillageCoords();
+    const destinationVillage = window.getDestinationVillageCoords();
 
     villages = villages.map((item) => {
         const distance = calculateDistance(item.coords, destinationVillage);
@@ -593,62 +593,64 @@ function changeVillagePriority() {
 
 // Action Handler: Grab the "chosen" villages and calculate their launch times based on the unit type
 function calculateLaunchTimes() {
-    jQuery('#calculateLaunchTimes').on('click', function (e) {
-        e.preventDefault();
+    jQuery(document)
+        .off('click.raSVP', '#calculateLaunchTimes')
+        .on('click.raSVP', '#calculateLaunchTimes', function (e) {
+            e.preventDefault();
 
-        const landingTimeString = jQuery('#raLandingTime').val().trim();
-        const destinationVillage = getDestinationVillageCoords();
+            const landingTimeString = jQuery('#raLandingTime').val().trim();
+            const destinationVillage = window.getDestinationVillageCoords();
 
-        let villagesUnitsToSend = [];
+            let villagesUnitsToSend = [];
 
-        // collect user input
-        jQuery('#raAttackPlannerTable .ra-selected-unit').each(function () {
-            const id = parseInt(jQuery(this).attr('data-village-id'));
-            const unit = jQuery(this).attr('data-unit-type');
-            const coords = jQuery(this).attr('data-village-coords');
-            const isPrioVillage = jQuery(this)
-                .parent()
-                .parent()
-                .find('td .ra-priority-village')[0]
-                ? true
-                : false;
+            // collect user input
+            jQuery('#raAttackPlannerTable .ra-selected-unit').each(function () {
+                const id = parseInt(jQuery(this).attr('data-village-id'));
+                const unit = jQuery(this).attr('data-unit-type');
+                const coords = jQuery(this).attr('data-village-coords');
+                const isPrioVillage = jQuery(this)
+                    .parent()
+                    .parent()
+                    .find('td .ra-priority-village')[0]
+                    ? true
+                    : false;
 
-            const distance = calculateDistance(coords, destinationVillage);
+                const distance = calculateDistance(coords, destinationVillage);
 
-            villagesUnitsToSend.push({
-                id: id,
-                unit: unit,
-                coords: coords,
-                highPrio: isPrioVillage,
-                distance: distance,
+                villagesUnitsToSend.push({
+                    id: id,
+                    unit: unit,
+                    coords: coords,
+                    highPrio: isPrioVillage,
+                    distance: distance,
+                });
             });
-        });
 
-        if (villagesUnitsToSend.length > 0 && landingTimeString !== '') {
-            UI.SuccessMessage(tt('Launch times are being calculated ...'));
-            const landingTime = getLandingTime(landingTimeString);
-            const plans = getPlans(
-                landingTime,
-                destinationVillage,
-                villagesUnitsToSend
-            );
+            if (villagesUnitsToSend.length > 0 && landingTimeString !== '') {
+                UI.SuccessMessage(tt('Launch times are being calculated ...'));
+                const landingTime = getLandingTime(landingTimeString);
+                const plans = getPlans(
+                    landingTime,
+                    destinationVillage,
+                    villagesUnitsToSend
+                );
 
-            if (plans.length > 0) {
-                const planBBCode = getBBCodePlans(plans, destinationVillage);
-                const plansCode = getCodePlans(plans, destinationVillage);
-                jQuery('#raVillagePlanner').show();
-                jQuery('#raExportPlanBBCode').val(planBBCode);
-                jQuery('#raExportPlanCode').val(plansCode);
+                if (plans.length > 0) {
+                    const planBBCode = getBBCodePlans(plans, destinationVillage);
+                    const plansCode = getCodePlans(plans, destinationVillage);
+                    jQuery('#raVillagePlanner').show();
+                    jQuery('#raExportPlanBBCode').val(planBBCode);
+                    jQuery('#raExportPlanCode').val(plansCode);
+                } else {
+                    UI.ErrorMessage(tt('No possible combinations found!'));
+                    jQuery('#raVillagePlanner').hide();
+                    jQuery('#raExportPlanBBCode').val('');
+                    jQuery('#raExportPlanCode').val('');
+                }
             } else {
-                UI.ErrorMessage(tt('No possible combinations found!'));
-                jQuery('#raVillagePlanner').hide();
-                jQuery('#raExportPlanBBCode').val('');
-                jQuery('#raExportPlanCode').val('');
+                UI.ErrorMessage(tt('Missing user input!'));
             }
-        } else {
-            UI.ErrorMessage(tt('Missing user input!'));
-        }
-    });
+        });
 }
 
 // Action Handler: Reset all user input
@@ -923,7 +925,7 @@ function getLandingTime(landingTime) {
 // Helper: Render own villages table
 function renderVillagesTable(villages) {
     if (villages.length) {
-        const destinationVillage = getDestinationVillageCoords();
+        const destinationVillage = window.getDestinationVillageCoords();
 
         let villagesTable = `
 		<table id="raAttackPlannerTable" class="ra-table" width="100%">
@@ -1327,7 +1329,7 @@ function getParameterByName(name, url = window.location.href) {
 }
 
 // Helper: Get destination coords from hash or page text
-function getDestinationVillageCoords() {
+window.getDestinationVillageCoords = function () {
     const hash = window.location.hash.replace('#', '').trim();
     if (hash && hash.includes(';')) {
         return hash.replace(';', '|');
@@ -1338,7 +1340,7 @@ function getDestinationVillageCoords() {
         .match(/(\d{3}\|\d{3})/);
 
     return match ? match[1] : '';
-}
+};
 
 // Helper: Generates script info
 function scriptInfo() {
