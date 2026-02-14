@@ -16,7 +16,7 @@ By uploading a user-generated mod (script) for use with Tribal Wars, you grant I
 
 var scriptData = {
     name: 'Single Village Planner',
-    version: 'v2.1.2',
+    version: 'v2.1.1',
     author: 'RedAlert',
     authorUrl: 'https://twscripts.dev/',
     helpLink:
@@ -89,10 +89,10 @@ var translations = {
         'Missing user input!': 'ChĂ˝ba oznaÄŤenie jednotiek!',
         'Landing Time': 'ÄŚas dopadu',
         'This village has no unit selected!':
-            'TĂˇto dedina nemĂˇ oznaÄŤenĂš jednotku!',
+            'TĂˇto dedina nemĂˇ oznaÄŤenĂş jednotku!',
         'Prio.': 'Prio.',
         'No possible combinations found!':
-            'Ĺ˝iadne moĹľnĂ© kombinĂ¡cie sa nenaĹˇli!',
+            'Ĺ˝iadne moĹľnĂ© kombinĂˇcie sa nenaĹˇli!',
         'Export Plan as BB Code': 'ExportovaĹĄ PlĂˇn ako BB KĂłdy',
         'Plan for:': 'PlĂˇn pre:',
         'Landing Time:': 'ÄŚas dopadu:',
@@ -133,7 +133,7 @@ var translations = {
         'No possible combinations found!': 'Geen mogelijkheden gevonden!',
         'Export Plan as BB Code': 'Exporteer plan als BB Code',
         'Plan for:': 'Plan voor:',
-        'Landing Time': 'Landingstijd:',
+        'Landing Time:': 'Landingstijd:',
         Unit: 'Eenheid',
         'Launch Time': 'Verzendtijd',
         Command: 'Bevel',
@@ -213,7 +213,7 @@ var translations = {
         'No possible combinations found!': 'Nessuna combinazione possibile!',
         'Export Plan as BB Code': 'Esporta il plan in BB code',
         'Plan for:': 'Plan per:',
-        'Landing Time': 'Tempo di arrivo:',
+        'Landing Time:': 'Tempo di arrivo:',
         Unit: 'UnitĂ ',
         'Launch Time': 'Tempo di lancio',
         Command: 'Comando',
@@ -249,7 +249,7 @@ var translations = {
         'No possible combinations found!': 'OlasÄ± kombinasyon bulunamadÄ±!',
         'Export Plan as BB Code': 'PlanÄ± BB Kodu Olarak DÄ±Ĺźa Aktar',
         'Plan for:': 'Plan iĂ§in:',
-        'Landing Time': 'Ä°niĹź zamanÄ±:',
+        'Landing Time:': 'Ä°niĹź zamanÄ±:',
         Unit: 'Birim',
         'Launch Time': 'BaĹźlatma ZamanÄ±:',
         Command: 'Komut',
@@ -374,7 +374,9 @@ async function initAttackPlanner(groupId) {
     troopCounts = await fetchTroopsForCurrentGroup(groupId);
     let villages = await fetchAllPlayerVillagesByGroup(groupId);
 
-    const destinationVillage = getDestinationVillageCoords();
+    const destinationVillage = jQuery(
+        '#content_value table table td:eq(2)'
+    ).text();
 
     villages = villages.map((item) => {
         const distance = calculateDistance(item.coords, destinationVillage);
@@ -593,19 +595,13 @@ function changeVillagePriority() {
 
 // Action Handler: Grab the "chosen" villages and calculate their launch times based on the unit type
 function calculateLaunchTimes() {
-    jQuery('#calculateLaunchTimes').off('click');
-    jQuery(document).off('click.raSVP', '#calculateLaunchTimes');
-
-    jQuery(document).on('click.raSVP', '#calculateLaunchTimes', function (e) {
+    jQuery('#calculateLaunchTimes').on('click', function (e) {
         e.preventDefault();
 
         const landingTimeString = jQuery('#raLandingTime').val().trim();
-        const destinationVillage = getDestinationVillageCoords();
-
-        if (!destinationVillage) {
-            UI.ErrorMessage(tt('Missing user input!'));
-            return;
-        }
+        const destinationVillage = jQuery(
+            '#content_value table table td:eq(2)'
+        ).text();
 
         let villagesUnitsToSend = [];
 
@@ -931,7 +927,9 @@ function getLandingTime(landingTime) {
 // Helper: Render own villages table
 function renderVillagesTable(villages) {
     if (villages.length) {
-        const destinationVillage = getDestinationVillageCoords();
+        const destinationVillage = jQuery(
+            '#content_value table table td:eq(2)'
+        ).text();
 
         let villagesTable = `
 		<table id="raAttackPlannerTable" class="ra-table" width="100%">
@@ -1334,25 +1332,6 @@ function getParameterByName(name, url = window.location.href) {
     return new URL(url).searchParams.get(name);
 }
 
-// Helper: Get destination coords from hash or page text
-function getDestinationVillageCoords() {
-    const hash = window.location.hash.replace('#', '').trim();
-    if (hash && hash.includes(';')) {
-        return hash.replace(';', '|');
-    }
-    if (hash && hash.includes('|')) {
-        return hash;
-    }
-
-    const match = jQuery('#content_value')
-        .text()
-        .match(/(\d{3}\|\d{3})/);
-
-    return match ? match[1] : '';
-}
-
-window.getDestinationVillageCoords = getDestinationVillageCoords;
-
 // Helper: Generates script info
 function scriptInfo() {
     return `[${scriptData.name} ${scriptData.version}]`;
@@ -1360,7 +1339,7 @@ function scriptInfo() {
 
 // Helper: Prints universal debug information
 function initDebug() {
-    console.debug(`${scriptInfo()} It works 🚀!`);
+    console.debug(`${scriptInfo()} It works đźš€!`);
     console.debug(`${scriptInfo()} HELP:`, scriptData.helpLink);
     if (DEBUG) {
         console.debug(`${scriptInfo()} Market:`, game_data.market);
