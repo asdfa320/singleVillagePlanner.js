@@ -11,8 +11,8 @@
  */
 
 /* Copyright (c) RedAlert
-By uploading a user-generated mod (script) for use with Tribal Wars, you grant InnoGames a perpetual, irrevocable, worldwide, royalty-free, non-exclusive license to use, reproduce, distribute, publicl[...]
-*/
+By uploading a user-generated mod (script) for use with Tribal Wars, you grant InnoGames a perpetual, irrevocable, worldwide, royalty-free, non-exclusive license to use, reproduce, distribute, publicly display, modify, and create derivative works of the mod. This license permits InnoGames to incorporate the mod into any aspect of the game and its related services, including promotional and commercial endeavors, without any requirement for compensation or attribution to you. InnoGames is entitled but not obligated to name you when exercising its rights. You represent and warrant that you have the legal right to grant this license and that the mod does not infringe upon any third-party rights. You are - with the exception of claims of infringement by third parties â€“ not liable for any usage of the mod by InnoGames. German law applies.
+ */
 
 var scriptData = {
     name: 'Single Village Planner',
@@ -158,7 +158,7 @@ var translations = {
         'Single Village Planner': 'Î‘Ď„ÎżÎĽÎąÎşĎŚ Î Î»Î¬Î˝Îż Î§Ď‰ĎÎąÎżĎŤ',
         Help: 'Î’ÎżÎ®Î¸ÎµÎąÎ±',
         'This script can only be run on a single village screen!':
-            'Î‘Ď…Ď„Îż Ď„Îż Script Ď„ĎÎ­Ď‡ÎµÎą Î±Ď€Îż Î Î»��·ĎÎżĎ†ÎżĎÎŻÎµĎ‚ Î§Ď‰ĎÎąÎżĎŤ!',
+            'Î‘Ď…Ď„Îż Ď„Îż Script Ď„ĎÎ­Ď‡ÎµÎą Î±Ď€Îż Î Î»Î·ĎÎżĎ†ÎżĎÎŻÎµĎ‚ Î§Ď‰ĎÎąÎżĎŤ!',
         Village: 'Î§Ď‰ĎÎąĎŚ',
         'Calculate Launch Times': 'ÎĄĎ€ÎżÎ»ĎŚÎłÎąĎÎµ ÎŹĎÎ± Î•ÎşÎşÎŻÎ˝Î·ĎÎ·Ď‚',
         Reset: 'Î•Ď€Î±Î˝Î±Ď†ÎżĎÎ¬',
@@ -498,7 +498,7 @@ function renderUI(body) {
             </small>
         </div>
         <style>
-            .ra-single-village-planner { position: relative; display: block; width: auto; height: auto; clear: both; margin: 0 auto 15px; padding: 10px; border: 1px solid #603000; box-sizing: border-b[...]
+            .ra-single-village-planner { position: relative; display: block; width: auto; height: auto; clear: both; margin: 0 auto 15px; padding: 10px; border: 1px solid #603000; box-sizing: border-box; background: #f4e4bc; }
 			.ra-single-village-planner * { box-sizing: border-box; }
 			.ra-single-village-planner input[type="text"] { width: 100%; padding: 5px 10px; border: 1px solid #000; font-size: 16px; line-height: 1; }
 			.ra-single-village-planner label { font-weight: 600 !important; margin-bottom: 5px; display: block; }
@@ -1326,16 +1326,43 @@ function getParameterByName(name, url = window.location.href) {
     return new URL(url).searchParams.get(name);
 }
 
-// Helper: Get destination coords from hash or page text
+// Helper: Get destination coords from hash or "Súradnice" row
 function getDestinationVillageCoords() {
     const hash = window.location.hash.replace('#', '').trim();
     if (hash && hash.includes(';')) {
         return hash.replace(';', '|');
     }
 
-    const text = jQuery('#content_value').text();
-    const match = text.match(/(\d{3}\|\d{3})/);
-    return match ? match[1] : '';
+    const labelCandidates = [
+        'Súradnice',
+        'Coords',
+        'Coordinate',
+        'Coordinates',
+        'Koordinat',
+        'Koordinaten',
+        'Coordonnées',
+        'Συντεταγμένες',
+    ];
+
+    let coords = '';
+
+    jQuery('#content_value table tr').each(function () {
+        const label = jQuery(this)
+            .find('td:first')
+            .text()
+            .trim()
+            .replace(':', '');
+        if (labelCandidates.includes(label)) {
+            coords = jQuery(this).find('td:eq(1)').text().trim();
+            return false;
+        }
+    });
+
+    const match = coords.match(/(\d{3}\|\d{3})/);
+    if (match) return match[1];
+
+    const fallback = jQuery('#content_value').text().match(/(\d{3}\|\d{3})/);
+    return fallback ? fallback[1] : '';
 }
 
 // Helper: Generates script info
