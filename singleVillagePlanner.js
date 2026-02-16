@@ -1,4 +1,3 @@
-
 /*
  * Script Name: Single Village Planner
  * Version: v2.1.2
@@ -12,12 +11,12 @@
  */
 
 /* Copyright (c) RedAlert
-By uploading a user-generated mod (script) for use with Tribal Wars, you grant InnoGames a perpetual, irrevocable, worldwide, royalty-free, non-exclusive license to use, reproduce, distribute, publicly display, modify, and create derivative works of the mod. This license permits InnoGames to incorporate the mod into any aspect of the game and its related services, including promotional and commercial endeavors, without any requirement for compensation or attribution to you. InnoGames is entitled but not obligated to name you when exercising its rights. You represent and warrant that you have the legal right to grant this license and that the mod does not infringe upon any third-party rights. You are - with the exception of claims of infringement by third parties Ă˘â‚¬â€ś not liable for any usage of the mod by InnoGames. German law applies.
+By uploading a user-generated mod (script) for use with Tribal Wars, you grant InnoGames a perpetual, irrevocable, worldwide, royalty-free, non-exclusive license to use, reproduce, distribute, publicly display, modify, and create derivative works of the mod. This license permits InnoGames to incorporate the mod into any aspect of the game and its related services, including promotional and commercial endeavors, without any requirement for compensation or attribution to you. InnoGames is entitled but not obligated to name you when exercising its rights. You represent and warrant that you have the legal right to grant this license and that the mod does not infringe upon any third-party rights. You are - with the exception of claims of infringement by third parties – not liable for any usage of the mod by InnoGames. German law applies.
 */
 
 var scriptData = {
     name: 'Single Village Planner',
-    version: 'v2.1.1',
+    version: 'v2.1.2',
     author: 'RedAlert',
     authorUrl: 'https://twscripts.dev/',
     helpLink:
@@ -78,36 +77,36 @@ var translations = {
         'Script configuration was reset!': 'Script configuration was reset!',
     },
     sk_SK: {
-        'Single Village Planner': 'PlĂˇnovaÄŤ pre jednu dedinu',
+        'Single Village Planner': 'Plánovač pre jednu dedinu',
         Help: 'Pomoc',
         'This script can only be run on a single village screen!':
-            'Tento skript sa dĂˇ spustiĹĄ iba v nĂˇhÄľade dediny z mapy',
+            'Tento skript sa dá spustiť iba v náhľade dediny z mapy',
         Village: 'Dedina',
-        'Calculate Launch Times': 'VĂ˝poÄŤĂ­taĹĄ ÄŤas plaÄŤu',
+        'Calculate Launch Times': 'Výpočítaj čas pláču',
         Reset: 'Reset',
         'Launch times are being calculated ...':
-            'ÄŚasy odoslania sa vypoÄŤĂ­tavajĂş ...',
-        'Missing user input!': 'ChĂ˝ba oznaÄŤenie jednotiek!',
-        'Landing Time': 'ÄŚas dopadu',
+            'Časy odoslania sa vypočítavajú ...',
+        'Missing user input!': 'Chýba označenie jednotiek!',
+        'Landing Time': 'Čas dopadu',
         'This village has no unit selected!':
-            'TĂˇto dedina nemĂˇ oznaÄŤenĂş jednotku!',
+            'Táto dedina nemá označenú jednotku!',
         'Prio.': 'Prio.',
         'No possible combinations found!':
-            'Ĺ˝iadne moĹľnĂ© kombinĂˇcie sa nenaĹˇli!',
-        'Export Plan as BB Code': 'Exportovat PlaÄŤ ako BB KĂłdy',
-        'Plan for:': 'PlĂˇn pre:',
-        'Landing Time:': 'ÄŚĹšas dopadu:',
+            'Žiadne možné kombinácie sa nenašli!',
+        'Export Plan as BB Code': 'Exportovat Plač ako BB Kódy',
+        'Plan for:': 'Plán pre:',
+        'Landing Time:': 'ČŠas dopadu:',
         Unit: 'Jednotka',
-        'Launch Time': 'ÄŚas odoslania:',
-        Command: 'PrĂ­Â­kaz',
+        'Launch Time': 'Čas odoslania:',
+        Command: 'Prí­kaz',
         Status: 'Stav',
-        Send: 'OdoslaĹĄ',
+        Send: 'Odoslať',
         From: 'Z',
         Priority: 'Priorita',
-        'Early send': 'SkorĂ© odoslanie',
-        'Landing time was updated!': 'ÄŚas dopadu aktualizovanĂ˝Ëť!',
-        'Error fetching village groups!': 'Chyba pri naÄŤĂ­tanĂ­Â­ skupiny dedĂ­Â­n',
-        'Dist.': 'VzdialenosĹĄ',
+        'Early send': 'Skoré odoslanie',
+        'Landing time was updated!': 'Čas dopadu aktualizovaný!',
+        'Error fetching village groups!': 'Chyba pri načítaní skupiny dedín',
+        'Dist.': 'Vzdialenosť',
         'Villages list could not be fetched!':
             'Villages list could not be fetched!',
         Group: 'Group',
@@ -156,36 +155,36 @@ var translations = {
         'Script configuration was reset!': 'Script configuration was reset!',
     },
     el_GR: {
-        'Single Village Planner': 'ĂŽâ€ÄŽâ€žĂŽĹĽĂŽÄ˝ĂŽÄ…ĂŽĹźÄŽĹš ĂŽ ĂŽÂ»ĂŽÂ¬ĂŽËťĂŽĹĽ ĂŽÂ§ÄŽâ€°ÄŽÂĂŽÄ…ĂŽĹĽÄŽĹ¤',
-        Help: 'ĂŽâ€™ĂŽĹĽĂŽÂ®ĂŽÂ¸ĂŽÂµĂŽÄ…ĂŽÂ±',
+        'Single Village Planner': 'Ατκτικός Πλάνο Χωριό',
+        Help: 'Βοήθεια',
         'This script can only be run on a single village screen!':
-            'ĂŽâ€ÄŽâ€¦ÄŽâ€žĂŽĹĽ ÄŽâ€žĂŽĹĽ Script ÄŽâ€žÄŽÂĂŽÂ­ÄŽâ€ˇĂŽÂµĂŽÄ… ĂŽÂ±ÄŽâ‚¬ĂŽĹĽ ĂŽ ĂŽÂ»ĂŽÂ·ÄŽÂĂŽĹĽÄŽâ€ ĂŽĹĽÄŽÂĂŽĹ»ĂŽÂµÄŽâ€š ĂŽÂ§ÄŽâ€°ÄŽÂĂŽÄ…ĂŽĹĽÄŽĹ¤!',
-        Village: 'ĂŽÂ§ÄŽâ€°ÄŽÂĂŽÄ…ÄŽĹš',
-        'Calculate Launch Times': 'ĂŽÄ„ÄŽâ‚¬ĂŽĹĽĂŽÂ»ÄŽĹšĂŽĹ‚ĂŽÄ…ÄŽÂĂŽÂµ ĂŽĹąÄŽÂĂŽÂ± ĂŽâ€˘ĂŽĹźĂŽĹźĂŽĹ»ĂŽËťĂŽÂ·ÄŽÂĂŽÂ·ÄŽâ€š',
-        Reset: 'ĂŽâ€˘ÄŽâ‚¬ĂŽÂ±ĂŽËťĂŽÂ±ÄŽâ€ ĂŽĹĽÄŽÂĂŽÂ¬',
+            'Αυτό το Script τρέχει από τη σελίδα χωριού!',
+        Village: 'Χωριό',
+        'Calculate Launch Times': 'Υπολογισμός Χρόνου Εκκίνησης',
+        Reset: 'Επαναφορά',
         'Launch times are being calculated ...':
-            'ĂŽĹşĂŽÄ… ÄŽâ€ˇÄŽÂÄŽĹšĂŽËťĂŽĹĽĂŽÄ… ĂŽÂµĂŽĹźĂŽĹźĂŽĹ»ĂŽËťĂŽÂ·ÄŽÂĂŽÂ·ÄŽâ€š ÄŽâ€¦ÄŽâ‚¬ĂŽĹĽĂŽÂ»ĂŽĹĽĂŽĹ‚ĂŽĹ»ĂŽÂ¶ĂŽĹĽĂŽËťÄŽâ€žĂŽÂ±ĂŽÄ… ...',
-        'Missing user input!': 'ĂŽâ€şĂŽÂµĂŽĹ»ÄŽâ‚¬ĂŽĹĽÄŽâ€¦ĂŽËť ÄŽâ€žĂŽÂ± ĂŽÂ´ĂŽÂµĂŽÂ´ĂŽĹĽĂŽÄ˝ĂŽÂ­ĂŽËťĂŽÂ±!',
-        'Landing Time': 'ĂŽĹąÄŽÂĂŽÂ± ĂŽÂ¬ÄŽâ€ ĂŽÄ…ĂŽÄľĂŽÂ·ÄŽâ€š',
+            'Οι χρόνοι εκκίνησης υπολογίζονται ...',
+        'Missing user input!': 'Λείπει δεδομένα!',
+        'Landing Time': 'Χρόνος άφιξης',
         'This village has no unit selected!':
-            'ĂŽÂ¤ĂŽĹĽ ÄŽâ€ˇÄŽâ€°ÄŽÂĂŽÄ…ÄŽĹš ĂŽÂ´ĂŽÂµĂŽËť ĂŽÂ­ÄŽâ€ˇĂŽÂµĂŽÄ… ĂŽÂµÄŽâ‚¬ĂŽÄ…ĂŽÂ»ĂŽÂµĂŽĹ‚ĂŽÄ˝ĂŽÂ­ĂŽËťĂŽÂµÄŽâ€š ĂŽÄ˝ĂŽĹĽĂŽËťĂŽÂ¬ĂŽÂ´ĂŽÂµÄŽâ€š!',
-        'Prio.': 'ĂŽ ÄŽÂĂŽĹĽÄŽâ€ž.',
+            'Αυτό το χωριό δεν έχει επιλεγμένη μονάδα!',
+        'Prio.': 'Προτερ.',
         'No possible combinations found!': 'No possible combinations found!',
-        'Export Plan as BB Code': 'ĂŽâ€˘ĂŽÄľĂŽÂ±ĂŽĹ‚ÄŽâ€°ĂŽĹ‚ĂŽÂ® ÄŽâ‚¬ĂŽÂ»ĂŽÂ¬ĂŽËťĂŽĹĽÄŽâ€¦ ÄŽÂĂŽÂµ BB Code',
-        'Plan for:': 'ĂŽ ĂŽÂ»ĂŽÂ¬ĂŽËťĂŽĹĽ ĂŽĹ‚ĂŽÄ…ĂŽÂ±:',
-        'Landing Time:': 'ĂŽĹąÄŽÂĂŽÂ± ĂŽÂ¬ÄŽâ€ ĂŽÄ…ĂŽÄľĂŽÂ·ÄŽâ€š:',
-        Unit: 'ĂŽĹ›ĂŽĹĽĂŽËťĂŽÂ¬ĂŽÂ´ĂŽÂ±',
-        'Launch Time': 'ĂŽĹąÄŽÂĂŽÂ± ĂŽÂµĂŽĹźĂŽĹźĂŽĹ»ĂŽËťĂŽÂ·ÄŽÂĂŽÂ·ÄŽâ€š',
-        Command: 'ĂŽâ€˘ĂŽËťÄŽâ€žĂŽĹĽĂŽÂ»ĂŽÂ®',
-        Status: 'ĂŽĹˇĂŽÂ±ÄŽâ€žĂŽÂ¬ÄŽÂÄŽâ€žĂŽÂ±ÄŽÂĂŽÂ·',
-        Send: 'ĂŽĹÄŽâ€žĂŽÂµĂŽĹ»ĂŽÂ»ĂŽÂµ',
-        From: 'ĂŽâ€ÄŽâ‚¬ÄŽĹš',
-        Priority: 'ĂŽ ÄŽÂĂŽĹĽÄŽâ€žĂŽÂµÄŽÂĂŽÂ±ĂŽÄ…ÄŽĹšÄŽâ€žĂŽÂ·ÄŽâ€žĂŽÂ±',
-        'Early send': 'ĂŽĹÄŽâ€žĂŽÂ¬ĂŽÂ»ĂŽÂ¸ĂŽÂ·ĂŽĹźĂŽÂ±ĂŽËť ĂŽËťÄŽâ€°ÄŽÂĂŽĹ»ÄŽâ€žĂŽÂµÄŽÂĂŽÂ±',
-        'Landing time was updated!': 'ĂŽâ€” ÄŽĹ˝ÄŽÂĂŽÂ± ĂŽÂ¬ÄŽâ€ ĂŽÄ…ĂŽÄľĂŽÂ·ÄŽâ€š ĂŽÂ±ĂŽËťĂŽÂ±ĂŽËťĂŽÂµÄŽĹ˝ĂŽÂ¸ĂŽÂ·ĂŽĹźĂŽÂµ!',
+        'Export Plan as BB Code': 'Εξαγωγή πλάνου σε BB Code',
+        'Plan for:': 'Πλάνο για:',
+        'Landing Time:': 'Χρόνος άφιξης:',
+        Unit: 'Μονάδα',
+        'Launch Time': 'Χρόνος εκκίνησης',
+        Command: 'Εντολή',
+        Status: 'Κατάσταση',
+        Send: 'Στείλε',
+        From: 'Από',
+        Priority: 'Προτεραιότητα',
+        'Early send': 'Πρόωρη αποστολή',
+        'Landing time was updated!': 'Ο χρόνος άφιξης ενημερώθηκε!',
         'Error fetching village groups!':
-            'ĂŽĹÄŽâ€ ĂŽÂ¬ĂŽÂ»ĂŽÄ˝ĂŽÂ± ĂŽĹźĂŽÂ±ÄŽâ€žĂŽÂ¬ ÄŽâ€žĂŽÂ·ĂŽËť ĂŽÂ±ĂŽËťĂŽÂ¬ĂŽĹźÄŽâ€žĂŽÂ·ÄŽÂĂŽÂ· ĂŽĹĽĂŽÄ˝ĂŽÂ¬ĂŽÂ´ÄŽâ€°ĂŽËť ÄŽâ€ˇÄŽâ€°ÄŽÂĂŽÄ…ÄŽĹ˝ĂŽËť!',
-        'Dist.': 'ĂŽâ€ÄŽâ‚¬ÄŽĹšÄŽÂÄŽâ€žĂŽÂ±ÄŽÂĂŽÂ·',
+            'Σφάλμα λήψης ομάδων χωριών!',
+        'Dist.': 'Dist.',
         'Villages list could not be fetched!':
             'Villages list could not be fetched!',
         Group: 'Group',
@@ -198,7 +197,7 @@ var translations = {
         'Single Village Planner': 'Planner Singolo Villo',
         Help: 'Aiuto',
         'This script can only be run on a single village screen!':
-            'Questo script puÄ‚Ë› essere lanciato solo dalla panoramica del villaggio!',
+            'Questo script può essere lanciato solo dalla panoramica del villaggio!',
         Village: 'Villaggio',
         Coords: 'Coordinate',
         Continent: 'Continente',
@@ -209,21 +208,21 @@ var translations = {
         'Missing user input!': 'Manca selezione truppe!',
         'Landing Time': 'Tempo di arrivo',
         'This village has no unit selected!':
-            'Questo villaggio non ha le unitÄ‚  selezionate!',
+            'Questo villaggio non ha le unità selezionate!',
         'Prio.': 'Prio.',
         'No possible combinations found!': 'Nessuna combinazione possibile!',
         'Export Plan as BB Code': 'Esporta il plan in BB code',
         'Plan for:': 'Plan per:',
         'Landing Time:': 'Tempo di arrivo:',
-        Unit: 'UnitÄ‚ ',
+        Unit: 'Unità',
         'Launch Time': 'Tempo di lancio',
         Command: 'Comando',
         Status: 'Status',
         Send: 'Invia',
         From: 'Da',
-        Priority: 'PrioritÄ‚ ',
+        Priority: 'Priorità',
         'Early send': 'Anticipa invio',
-        'Landing time was updated!': 'Il tempo di arrivo Ä‚Â¨ stato aggiornato!',
+        'Landing time was updated!': 'Il tempo di arrivo è stato aggiornato!',
         'Error fetching village groups!': 'Errore nel recupero gruppo!',
         Group: 'Gruppo',
         'Export Plan without tables': 'Export Plan without tables',
@@ -232,36 +231,36 @@ var translations = {
         'Script configuration was reset!': 'Script configuration was reset!',
     },
     tr_TR: {
-        'Single Village Planner': 'Tek KÄ‚Â¶y PlanlayĂ„Â±cĂ„Â±sĂ„Â±',
-        Help: 'YardĂ„Â±m',
+        'Single Village Planner': 'Tek Köy Planlayıcısı',
+        Help: 'Yardım',
         'This script can only be run on a single village screen!':
-            'Bu komut dosyasĂ„Â± yalnĂ„Â±zca tek bir kÄ‚Â¶y ekranĂ„Â±nda Ä‚Â§alĂ„Â±ÄąĹştĂ„Â±rĂ„Â±labilir',
-        Village: 'KÄ‚Â¶y',
+            'Bu komut dosyası yalnızca tek bir köy ekranında çalıştırılabilir',
+        Village: 'Köy',
         Coords: 'Koordinat',
-        Continent: 'KĂ„Â±ta',
-        'Calculate Launch Times': 'BaÄąĹşlatma SÄ‚Ä˝relerini HesaplayĂ„Â±n',
+        Continent: 'Kıta',
+        'Calculate Launch Times': 'Başlatma Sürelerini Hesaplayın',
         Reset: 'Reset',
         'Launch times are being calculated ...':
-            'BaÄąĹşlatma sÄ‚Ä˝releri hesaplanĂ„Â±yor ...',
-        'Missing user input!': 'Eksik kullanĂ„Â±cĂ„Â± giriÄąĹşi!',
-        'Landing Time': 'iniÄąĹş zamanĂ„Â±',
-        'This village has no unit selected!': 'Bu kÄ‚Â¶yde seÄ‚Â§ili birim yok!',
+            'Başlatma süreleri hesaplanıyor ...',
+        'Missing user input!': 'Eksik kullanıcı girişi!',
+        'Landing Time': 'iniş zamanı',
+        'This village has no unit selected!': 'Bu köyde seçili birim yok!',
         'Prio.': 'Prio.',
-        'No possible combinations found!': 'OlasĂ„Â± kombinasyon bulunamadĂ„Â±!',
-        'Export Plan as BB Code': 'PlanĂ„Â± BB Kodu Olarak DĂ„Â±ÄąĹşa Aktar',
-        'Plan for:': 'Plan iÄ‚Â§in:',
-        'Landing Time:': 'Ă„Â°niÄąĹş zamanĂ„Â±:',
+        'No possible combinations found!': 'Olası kombinasyon bulunamadı!',
+        'Export Plan as BB Code': 'Planı BB Kodu Olarak Dışa Aktar',
+        'Plan for:': 'Plan için:',
+        'Landing Time:': 'İniş zamanı:',
         Unit: 'Birim',
-        'Launch Time': 'BaÄąĹşlatma ZamanĂ„Â±:',
+        'Launch Time': 'Başlatma Zamanı:',
         Command: 'Komut',
         Status: 'Durum',
-        Send: 'GÄ‚Â¶nder',
+        Send: 'Gönder',
         From: 'Z',
-        Priority: 'Ä‚â€“ncelik',
-        'Early send': 'erken gÄ‚Â¶nder',
-        'Landing time was updated!': 'Ă„Â°niÄąĹş zamanĂ„Â± gÄ‚Ä˝ncellendi!',
+        Priority: 'Öncelik',
+        'Early send': 'erken gönder',
+        'Landing time was updated!': 'İniş zamanı güncellendi!',
         'Error fetching village groups!':
-            'KÄ‚Â¶y gruplarĂ„Â± getirilirken hata oluÄąĹştu',
+            'Köy grupları getirilirken hata oluştu',
         'Dist.': 'Dist.',
         'Villages list could not be fetched!':
             'Villages list could not be fetched!',
@@ -272,25 +271,25 @@ var translations = {
         'Script configuration was reset!': 'Script configuration was reset!',
     },
     pt_BR: {
-        'Single Village Planner': 'Planeador para ataques em uma sÄ‚Ĺ‚ aldeia',
+        'Single Village Planner': 'Planeador para ataques em uma só aldeia',
         Help: 'Ajuda',
         'This script can only be run on a single village screen!':
-            'Este script sÄ‚Ĺ‚ pode ser usado na pÄ‚Ë‡gina de uma sÄ‚Ĺ‚ aldeia!',
+            'Este script só pode ser usado na página de uma só aldeia!',
         Village: 'Aldeia',
         Coords: 'Coords',
         Continent: 'Continente',
         'Calculate Launch Times': 'Calcular tempos de envio',
         Reset: 'Reset',
         'Launch times are being calculated ...':
-            'Os tempos de envio estÄ‚Ĺo a ser calculados ...',
+            'Os tempos de envio estão a ser calculados ...',
         'Missing user input!': 'Falta o input do utilizador!',
         'Landing Time': 'Tempo de chegada',
         'This village has no unit selected!':
-            'Esta aldeia nÄ‚Ĺo tem unidades selecionadas!',
+            'Esta aldeia não tem unidades selecionadas!',
         'Prio.': 'Prioridade',
         'No possible combinations found!':
-            'NÄ‚Ĺo foram encontradas combinaÄ‚Â§Ä‚Âµes possÄ‚Â­veis!',
-        'Export Plan as BB Code': 'Exportar plano em cÄ‚Ĺ‚digo BB',
+            'Não foram encontradas combinações possíveis!',
+        'Export Plan as BB Code': 'Exportar plano em código BB',
         'Plan for:': 'Plano para:',
         'Landing Time:': 'Tempo de chegada:',
         Unit: 'Unidade',
@@ -317,45 +316,63 @@ var translations = {
         'Single Village Planner': "Planificateur d'attaque village unique",
         Help: 'Aide',
         'This script can only be run on a single village screen!':
-            "Ce script doit Ä‚Ĺžtre lancÄ‚Â© depuis la vu d'un village!",
+            "Ce script doit être lancé depuis la vu d'un village!",
         Village: 'Village',
         'Calculate Launch Times': "Calcul heure d'envoi",
-        Reset: 'RÄ‚Â©initialiser',
+        Reset: 'Réinitialiser',
         'Launch times are being calculated ...':
             "Heures d'envoi en cours de calcul ...",
-        'Missing user input!': 'Aucun joueur renseignÄ‚Â©!',
-        'Landing Time': "Heure d'arrivÄ‚Â©",
+        'Missing user input!': 'Aucun joueur renseigné!',
+        'Landing Time': "Heure d'arrivée",
         'This village has no unit selected!':
-            "Ce village n'a aucune unitÄ‚Â© sÄ‚Â©lectionnÄ‚Â©e!",
+            "Ce village n'a aucune unité sélectionnée!",
         'Prio.': 'Prio.',
         'No possible combinations found!': 'Aucune combinaison possible!',
         'Export Plan as BB Code': "Exporter le plan d'attaque en bb-code",
         'Plan for:': 'Plan pour:',
-        'Landing Time:': "Heure d'arrivÄ‚Â©:",
-        Unit: 'UnitÄ‚Â©',
+        'Landing Time:': "Heure d'arrivée:",
+        Unit: 'Unité',
         'Launch Time': "Heure d'envoi",
         Command: 'Ordre',
         Status: 'Status',
         Send: 'Envoyer',
         From: 'Origine',
-        Priority: 'PrioritÄ‚Â©',
-        'Early send': 'Envoi tÄ‚Â´t',
-        'Landing time was updated!': "Heure d'arrivÄ‚Â© mis Ä‚  jour!",
+        Priority: 'Priorité',
+        'Early send': 'Envoi tôt',
+        'Landing time was updated!': "Heure d'arrivée mis à jour!",
         'Error fetching village groups!':
-            'Erreur lors de la rÄ‚Â©cupÄ‚Â©ration des groupes de villages!',
+            'Erreur lors de la récupération des groupes de villages!',
         'Dist.': 'Dist.',
         'Villages list could not be fetched!':
-            'Impossible de rÄ‚Â©cupÄ‚Â©rer la liste des villages!',
+            'Impossible de récupérer la liste des villages!',
         Group: 'Groupe',
         'Export Plan without tables': 'Exporter le plan sans tableau',
-        'Chosen group was reset!': 'Groupe sÄ‚Â©lectionnÄ‚Â© rÄ‚Â©initialisÄ‚Â©!',
-        'Reset Chosen Group': 'RÄ‚Â©initialiser groupe(s) sÄ‚Â©lectionnÄ‚Â©e(s)',
-        'Script configuration was reset!': 'Configuration rÄ‚Â©initialisÄ‚Â©e!',
+        'Chosen group was reset!': 'Groupe sélectionné réinitialisé!',
+        'Reset Chosen Group': 'Réinitialiser groupe(s) sélectionnée(s)',
+        'Script configuration was reset!': 'Configuration réinitialisée!',
     },
 };
 
 // Init Debug
 initDebug();
+
+// Mobile tap handler (prevents ghost clicks after touch)
+var lastTouchTime = 0;
+function bindTap(selector, handler) {
+    const root = jQuery(document);
+    root.off('touchstart.raSVPTap click.raSVPTap', selector);
+
+    root.on('touchstart.raSVPTap', selector, function (e) {
+        lastTouchTime = Date.now();
+        e.preventDefault();
+        handler.call(this, e);
+    });
+
+    root.on('click.raSVPTap', selector, function (e) {
+        if (Date.now() - lastTouchTime < 500) return;
+        handler.call(this, e);
+    });
+}
 
 // Fetch unit config only when needed
 if (LAST_UPDATED_TIME !== null) {
@@ -371,7 +388,7 @@ function getDestinationVillageCoords() {
     return jQuery('#content_value')
         .find('tr')
         .filter(function () {
-            return jQuery(this).find('td:first').text().trim() === 'SĂşradnice:';
+            return jQuery(this).find('td:first').text().trim() === 'Súradnice:';
         })
         .find('td:last')
         .text()
@@ -385,7 +402,6 @@ async function initAttackPlanner(groupId) {
     let villages = await fetchAllPlayerVillagesByGroup(groupId);
 
     const destinationVillage = getDestinationVillageCoords();
-    
 
     villages = villages.map((item) => {
         const distance = calculateDistance(item.coords, destinationVillage);
@@ -524,11 +540,11 @@ function renderUI(body) {
             .ra-table td { padding: 4px; text-align: center; }
             .ra-table td a { word-break: break-all; }
 			.ra-table tr:nth-of-type(2n+1) td { background-color: #fff5da; }
-			.ra-table td img { padding: 2px; border: 2px solid transparent; cursor: pointer; }
+			.ra-table td img { padding: 2px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 			.ra-table td img.ra-selected-unit { border: 2px solid #ff0000; }
 			.ra-table a:focus { color: blue; }
 			.ra-table th .icon { transform: scale(1.05); margin: 0; }
-			.ra-table th img { cursor: pointer; }
+			.ra-table th img { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 			.ra-table th.ra-unit-toggle:hover { background-color: rgba(97, 48, 0, 0.6) !important; background-image: none !important; cursor: pointer !important; }
 			.ra-table td .icon { filter: grayscale(100%); transform: scale(1.05); margin: 0; cursor: pointer; }
 			.ra-table td .icon.ra-priority-village { filter: none !important; }
@@ -540,7 +556,7 @@ function renderUI(body) {
 			.ra-groups-filter li:last-child { margin-right: 0; }
 			.ra-selected-group { color: #21881e; }
 
-			.ra-single-village-planner .btn { padding: 3px 4px; }
+			.ra-single-village-planner .btn { padding: 3px 4px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 
 			/* Helper Classes */
 			.ra-fw600 { font-weight: 600; }
@@ -560,7 +576,7 @@ function renderUI(body) {
 
 // Action Handler: Here is the logic to collect units
 function choseUnit() {
-    jQuery('.ra-table td img').on('click', function () {
+    bindTap('.ra-table td img', function () {
         // toggle state of chosen unit
         jQuery(this)
             .parent()
@@ -589,7 +605,7 @@ function choseUnit() {
 
 // Action Handler: Change the village send priority
 function changeVillagePriority() {
-    jQuery('#raAttackPlannerTable tbody td .icon').on('click', function () {
+    bindTap('#raAttackPlannerTable tbody td .icon', function () {
         const isUnitSelectedForVillage = jQuery(this)
             .parent()
             .parent()
@@ -604,7 +620,7 @@ function changeVillagePriority() {
 
 // Action Handler: Grab the "chosen" villages and calculate their launch times based on the unit type
 function calculateLaunchTimes() {
-    jQuery('#calculateLaunchTimes').on('click', function (e) {
+    bindTap('#calculateLaunchTimes', function (e) {
         e.preventDefault();
 
         const landingTimeString = jQuery('#raLandingTime').val().trim();
@@ -664,7 +680,7 @@ function calculateLaunchTimes() {
 
 // Action Handler: Reset all user input
 function resetAll() {
-    jQuery('#resetAll').on('click', function (e) {
+    bindTap('#resetAll', function (e) {
         e.preventDefault();
         initAttackPlanner(GROUP_ID);
     });
@@ -672,32 +688,33 @@ function resetAll() {
 
 // Action Handler: When a command is clicked fill landing time with the landing time of the command
 function fillLandingTimeFromCommand() {
-    jQuery(
-        '#commands_outgoings table tbody tr.command-row, #commands_incomings table tbody tr.command-row'
-    ).on('click', function () {
-        jQuery('#commands_outgoings table tbody tr.command-row').removeClass(
-            'ra-chosen-command'
-        );
-        jQuery(this).addClass('ra-chosen-command');
+    bindTap(
+        '#commands_outgoings table tbody tr.command-row, #commands_incomings table tbody tr.command-row',
+        function () {
+            jQuery('#commands_outgoings table tbody tr.command-row').removeClass(
+                'ra-chosen-command'
+            );
+            jQuery(this).addClass('ra-chosen-command');
 
-        const commandLandingTime =
-            parseInt(jQuery(this).find('td:eq(2) span').attr('data-endtime')) *
-            1000;
+            const commandLandingTime =
+                parseInt(jQuery(this).find('td:eq(2) span').attr('data-endtime')) *
+                1000;
 
-        const landingTimeDateTime = new Date(commandLandingTime);
-        const serverDateTime = getServerTime();
-        const localDateTime = new Date();
+            const landingTimeDateTime = new Date(commandLandingTime);
+            const serverDateTime = getServerTime();
+            const localDateTime = new Date();
 
-        const diffTime = Math.abs(localDateTime - serverDateTime);
-        const newLandingTime = Math.ceil(
-            Math.abs(landingTimeDateTime - diffTime)
-        );
-        const newLandingTimeObj = new Date(newLandingTime);
-        const formattedNewLandingTime = formatDateTime(newLandingTimeObj);
+            const diffTime = Math.abs(localDateTime - serverDateTime);
+            const newLandingTime = Math.ceil(
+                Math.abs(landingTimeDateTime - diffTime)
+            );
+            const newLandingTimeObj = new Date(newLandingTime);
+            const formattedNewLandingTime = formatDateTime(newLandingTimeObj);
 
-        jQuery('#raLandingTime').val(formattedNewLandingTime);
-        UI.SuccessMessage(tt('Landing time was updated!'));
-    });
+            jQuery('#raLandingTime').val(formattedNewLandingTime);
+            UI.SuccessMessage(tt('Landing time was updated!'));
+        }
+    );
 }
 
 // Action Handler: Filter villages shown by selected group
@@ -711,7 +728,7 @@ function filterVillagesByChosenGroup() {
 
 // Action Handler: Reset chosen group
 function resetGroup() {
-    jQuery('#resetGroupBtn').on('click', function (e) {
+    bindTap('#resetGroupBtn', function (e) {
         e.preventDefault();
         localStorage.removeItem(`${LS_PREFIX}_chosen_group`);
         UI.SuccessMessage(tt('Chosen group was reset!'));
@@ -721,17 +738,14 @@ function resetGroup() {
 
 // Action Handler: Set all villages to unit
 function setAllUnits() {
-    jQuery('#raAttackPlannerTable thead tr th.ra-unit-toggle').on(
-        'click',
-        function () {
-            const chosenUnit = jQuery(this).find('img').attr('data-set-unit');
-            jQuery('#raAttackPlannerTable tbody tr').each(function () {
-                jQuery(this)
-                    .find(`img[data-unit-type="${chosenUnit}"`)
-                    .trigger('click');
-            });
-        }
-    );
+    bindTap('#raAttackPlannerTable thead tr th.ra-unit-toggle', function () {
+        const chosenUnit = jQuery(this).find('img').attr('data-set-unit');
+        jQuery('#raAttackPlannerTable tbody tr').each(function () {
+            jQuery(this)
+                .find(`img[data-unit-type="${chosenUnit}"`)
+                .trigger('click');
+        });
+    });
 }
 
 // Prepare plans based on user input
@@ -1344,7 +1358,7 @@ function scriptInfo() {
 
 // Helper: Prints universal debug information
 function initDebug() {
-    console.debug(`${scriptInfo()} It works Ä‘ĹşĹˇâ‚¬!`);
+    console.debug(`${scriptInfo()} It works đūŝß€!`);
     console.debug(`${scriptInfo()} HELP:`, scriptData.helpLink);
     if (DEBUG) {
         console.debug(`${scriptInfo()} Market:`, game_data.market);
