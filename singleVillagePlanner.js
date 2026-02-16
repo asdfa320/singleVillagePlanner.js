@@ -160,7 +160,7 @@ var translations = {
         'This script can only be run on a single village screen!':
             'Αυτό το Script τρέχει από τη σελίδα χωριού!',
         Village: 'Χωριό',
-        'Calculate Launch Times': 'Υπολογισμός Χρόνου Εκκίνησης',
+        'Calculate Launch Times': 'Υπολογισμός Χρόνου Εκκίνηση��',
         Reset: 'Επαναφορά',
         'Launch times are being calculated ...':
             'Οι χρόνοι εκκίνησης υπολογίζονται ...',
@@ -249,7 +249,7 @@ var translations = {
         'No possible combinations found!': 'Olası kombinasyon bulunamadı!',
         'Export Plan as BB Code': 'Planı BB Kodu Olarak Dışa Aktar',
         'Plan for:': 'Plan için:',
-        'Landing Time:': 'İniş zamanı:',
+        'Landing Time': 'İniş zamanı:',
         Unit: 'Birim',
         'Launch Time': 'Başlatma Zamanı:',
         Command: 'Komut',
@@ -355,24 +355,6 @@ var translations = {
 
 // Init Debug
 initDebug();
-
-// Mobile tap handler (prevents ghost clicks after touch)
-var lastTouchTime = 0;
-function bindTap(selector, handler) {
-    const root = jQuery(document);
-    root.off('touchstart.raSVPTap click.raSVPTap', selector);
-
-    root.on('touchstart.raSVPTap', selector, function (e) {
-        lastTouchTime = Date.now();
-        e.preventDefault();
-        handler.call(this, e);
-    });
-
-    root.on('click.raSVPTap', selector, function (e) {
-        if (Date.now() - lastTouchTime < 500) return;
-        handler.call(this, e);
-    });
-}
 
 // Fetch unit config only when needed
 if (LAST_UPDATED_TIME !== null) {
@@ -540,11 +522,11 @@ function renderUI(body) {
             .ra-table td { padding: 4px; text-align: center; }
             .ra-table td a { word-break: break-all; }
 			.ra-table tr:nth-of-type(2n+1) td { background-color: #fff5da; }
-			.ra-table td img { padding: 2px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+			.ra-table td img { padding: 2px; border: 2px solid transparent; cursor: pointer; }
 			.ra-table td img.ra-selected-unit { border: 2px solid #ff0000; }
 			.ra-table a:focus { color: blue; }
 			.ra-table th .icon { transform: scale(1.05); margin: 0; }
-			.ra-table th img { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+			.ra-table th img { cursor: pointer; }
 			.ra-table th.ra-unit-toggle:hover { background-color: rgba(97, 48, 0, 0.6) !important; background-image: none !important; cursor: pointer !important; }
 			.ra-table td .icon { filter: grayscale(100%); transform: scale(1.05); margin: 0; cursor: pointer; }
 			.ra-table td .icon.ra-priority-village { filter: none !important; }
@@ -556,7 +538,10 @@ function renderUI(body) {
 			.ra-groups-filter li:last-child { margin-right: 0; }
 			.ra-selected-group { color: #21881e; }
 
-			.ra-single-village-planner .btn { padding: 3px 4px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+			.ra-single-village-planner .btn { padding: 3px 4px; }
+
+            .ra-unit-checkbox { display: block; margin-top: 4px; }
+            .ra-unit-checkbox input { transform: scale(1.1); }
 
 			/* Helper Classes */
 			.ra-fw600 { font-weight: 600; }
@@ -574,42 +559,33 @@ function renderUI(body) {
     }
 }
 
-// Action Handler: Here is the logic to collect units
+// Action Handler: Here is the logic to collect units (checkbox version)
 function choseUnit() {
-    bindTap('.ra-table td img', function () {
-        // toggle state of chosen unit
-        jQuery(this)
-            .parent()
-            .parent()
-            .find('img')
-            .not(this)
-            .removeClass('ra-selected-unit');
-        jQuery(this).toggleClass('ra-selected-unit');
+    jQuery(document).off('change.raUnitSelect').on('change.raUnitSelect', '.ra-unit-select', function () {
+        const $row = jQuery(this).closest('tr');
 
-        // toggle state of chosen village
-        jQuery('#raAttackPlannerTable tbody tr').each(function () {
-            const isAnyUnitSelected = jQuery(this).find(
-                'img.ra-selected-unit'
-            )[0];
-            if (isAnyUnitSelected) {
-                jQuery(this).addClass('ra-selected-village');
-            } else {
-                jQuery(this)
-                    .find('td .icon')
-                    .removeClass('ra-priority-village');
-                jQuery(this).removeClass('ra-selected-village');
-            }
-        });
+        // allow only one unit per village
+        $row.find('.ra-unit-select').not(this).prop('checked', false);
+        $row.find('img').removeClass('ra-selected-unit');
+
+        if (jQuery(this).is(':checked')) {
+            const unitType = jQuery(this).attr('data-unit-type');
+            $row.find(`img[data-unit-type="${unitType}"]`).addClass('ra-selected-unit');
+            $row.addClass('ra-selected-village');
+        } else {
+            $row.removeClass('ra-selected-village');
+            $row.find('td .icon').removeClass('ra-priority-village');
+        }
     });
 }
 
 // Action Handler: Change the village send priority
 function changeVillagePriority() {
-    bindTap('#raAttackPlannerTable tbody td .icon', function () {
+    jQuery('#raAttackPlannerTable tbody td .icon').on('click', function () {
         const isUnitSelectedForVillage = jQuery(this)
             .parent()
             .parent()
-            .find('.ra-selected-unit')[0];
+            .find('.ra-unit-select:checked')[0];
         if (isUnitSelectedForVillage) {
             jQuery(this).toggleClass('ra-priority-village');
         } else {
@@ -620,7 +596,7 @@ function changeVillagePriority() {
 
 // Action Handler: Grab the "chosen" villages and calculate their launch times based on the unit type
 function calculateLaunchTimes() {
-    bindTap('#calculateLaunchTimes', function (e) {
+    jQuery('#calculateLaunchTimes').on('click', function (e) {
         e.preventDefault();
 
         const landingTimeString = jQuery('#raLandingTime').val().trim();
@@ -629,13 +605,12 @@ function calculateLaunchTimes() {
         let villagesUnitsToSend = [];
 
         // collect user input
-        jQuery('#raAttackPlannerTable .ra-selected-unit').each(function () {
+        jQuery('#raAttackPlannerTable .ra-unit-select:checked').each(function () {
             const id = parseInt(jQuery(this).attr('data-village-id'));
             const unit = jQuery(this).attr('data-unit-type');
             const coords = jQuery(this).attr('data-village-coords');
             const isPrioVillage = jQuery(this)
-                .parent()
-                .parent()
+                .closest('tr')
                 .find('td .ra-priority-village')[0]
                 ? true
                 : false;
@@ -680,7 +655,7 @@ function calculateLaunchTimes() {
 
 // Action Handler: Reset all user input
 function resetAll() {
-    bindTap('#resetAll', function (e) {
+    jQuery('#resetAll').on('click', function (e) {
         e.preventDefault();
         initAttackPlanner(GROUP_ID);
     });
@@ -688,33 +663,32 @@ function resetAll() {
 
 // Action Handler: When a command is clicked fill landing time with the landing time of the command
 function fillLandingTimeFromCommand() {
-    bindTap(
-        '#commands_outgoings table tbody tr.command-row, #commands_incomings table tbody tr.command-row',
-        function () {
-            jQuery('#commands_outgoings table tbody tr.command-row').removeClass(
-                'ra-chosen-command'
-            );
-            jQuery(this).addClass('ra-chosen-command');
+    jQuery(
+        '#commands_outgoings table tbody tr.command-row, #commands_incomings table tbody tr.command-row'
+    ).on('click', function () {
+        jQuery('#commands_outgoings table tbody tr.command-row').removeClass(
+            'ra-chosen-command'
+        );
+        jQuery(this).addClass('ra-chosen-command');
 
-            const commandLandingTime =
-                parseInt(jQuery(this).find('td:eq(2) span').attr('data-endtime')) *
-                1000;
+        const commandLandingTime =
+            parseInt(jQuery(this).find('td:eq(2) span').attr('data-endtime')) *
+            1000;
 
-            const landingTimeDateTime = new Date(commandLandingTime);
-            const serverDateTime = getServerTime();
-            const localDateTime = new Date();
+        const landingTimeDateTime = new Date(commandLandingTime);
+        const serverDateTime = getServerTime();
+        const localDateTime = new Date();
 
-            const diffTime = Math.abs(localDateTime - serverDateTime);
-            const newLandingTime = Math.ceil(
-                Math.abs(landingTimeDateTime - diffTime)
-            );
-            const newLandingTimeObj = new Date(newLandingTime);
-            const formattedNewLandingTime = formatDateTime(newLandingTimeObj);
+        const diffTime = Math.abs(localDateTime - serverDateTime);
+        const newLandingTime = Math.ceil(
+            Math.abs(landingTimeDateTime - diffTime)
+        );
+        const newLandingTimeObj = new Date(newLandingTime);
+        const formattedNewLandingTime = formatDateTime(newLandingTimeObj);
 
-            jQuery('#raLandingTime').val(formattedNewLandingTime);
-            UI.SuccessMessage(tt('Landing time was updated!'));
-        }
-    );
+        jQuery('#raLandingTime').val(formattedNewLandingTime);
+        UI.SuccessMessage(tt('Landing time was updated!'));
+    });
 }
 
 // Action Handler: Filter villages shown by selected group
@@ -728,7 +702,7 @@ function filterVillagesByChosenGroup() {
 
 // Action Handler: Reset chosen group
 function resetGroup() {
-    bindTap('#resetGroupBtn', function (e) {
+    jQuery('#resetGroupBtn').on('click', function (e) {
         e.preventDefault();
         localStorage.removeItem(`${LS_PREFIX}_chosen_group`);
         UI.SuccessMessage(tt('Chosen group was reset!'));
@@ -738,14 +712,22 @@ function resetGroup() {
 
 // Action Handler: Set all villages to unit
 function setAllUnits() {
-    bindTap('#raAttackPlannerTable thead tr th.ra-unit-toggle', function () {
-        const chosenUnit = jQuery(this).find('img').attr('data-set-unit');
-        jQuery('#raAttackPlannerTable tbody tr').each(function () {
-            jQuery(this)
-                .find(`img[data-unit-type="${chosenUnit}"`)
-                .trigger('click');
-        });
-    });
+    jQuery('#raAttackPlannerTable thead tr th.ra-unit-toggle').on(
+        'click',
+        function () {
+            const chosenUnit = jQuery(this).find('img').attr('data-set-unit');
+            jQuery('#raAttackPlannerTable tbody tr').each(function () {
+                jQuery(this)
+                    .find('.ra-unit-select')
+                    .prop('checked', false);
+
+                const $checkbox = jQuery(this).find(
+                    `input.ra-unit-select[data-unit-type="${chosenUnit}"]`
+                );
+                $checkbox.prop('checked', true).trigger('change');
+            });
+        }
+    );
 }
 
 // Prepare plans based on user input
@@ -1054,50 +1036,86 @@ function renderVillagesTable(villages) {
 				</td>
 				<td>
 					<img data-unit-type="spear" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_spear.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="spear" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(spear)}</span>
 				</td>
 				<td>
 					<img data-unit-type="sword" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_sword.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="sword" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(sword)}</span>
 				</td>
 				<td>
 					<img data-unit-type="axe" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_axe.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="axe" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(axe)}</span>
 				</td>
 				<td class="archer-world">
 					<img data-unit-type="archer" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_archer.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="archer" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(archer)}</span>
 				</td>
 				<td>
 					<img data-unit-type="spy" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_spy.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="spy" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(spy)}</span>
 				</td>
 				<td>
 					<img data-unit-type="light" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_light.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="light" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(light)}</span>
 				</td>
 				<td class="archer-world">
 					<img data-unit-type="marcher" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_marcher.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="marcher" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(marcher)}</span>
 				</td>
 				<td>
 					<img data-unit-type="heavy" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_heavy.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="heavy" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(heavy)}</span>
 				</td>
 				<td>
 					<img data-unit-type="ram" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_ram.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="ram" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(ram)}</span>
 				</td>
 				<td>
 					<img data-unit-type="catapult" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_catapult.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="catapult" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(catapult)}</span>
 				</td>
 				<td class="paladin-world">
 					<img data-unit-type="knight" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_knight.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="knight" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(knight)}</span>
 				</td>
 				<td>
 					<img data-unit-type="snob" data-village-id="${id}" data-village-coords="${coords}" src="/graphic/unit/unit_snob.webp">
+					<label class="ra-unit-checkbox">
+                        <input type="checkbox" class="ra-unit-select" data-unit-type="snob" data-village-id="${id}" data-village-coords="${coords}">
+                    </label>
 					<span>${formatAsNumber(snob)}</span>
 				</td>
 			</tr>
