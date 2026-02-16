@@ -160,7 +160,7 @@ var translations = {
         'This script can only be run on a single village screen!':
             'Αυτό το Script τρέχει από τη σελίδα χωριού!',
         Village: 'Χωριό',
-        'Calculate Launch Times': 'Υπολογισμός Χρόνου Εκκίνηση��',
+        'Calculate Launch Times': 'Υπολογισμός Χρόνου Εκκίνησης',
         Reset: 'Επαναφορά',
         'Launch times are being calculated ...':
             'Οι χρόνοι εκκίνησης υπολογίζονται ...',
@@ -237,7 +237,7 @@ var translations = {
             'Bu komut dosyası yalnızca tek bir köy ekranında çalıştırılabilir',
         Village: 'Köy',
         Coords: 'Koordinat',
-        Continent: 'Kıta',
+        Continent: 'Kıτα',
         'Calculate Launch Times': 'Başlatma Sürelerini Hesaplayın',
         Reset: 'Reset',
         'Launch times are being calculated ...':
@@ -249,7 +249,7 @@ var translations = {
         'No possible combinations found!': 'Olası kombinasyon bulunamadı!',
         'Export Plan as BB Code': 'Planı BB Kodu Olarak Dışa Aktar',
         'Plan for:': 'Plan için:',
-        'Landing Time': 'İniş zamanı:',
+        'Landing Time:': 'İniş zamanı:',
         Unit: 'Birim',
         'Launch Time': 'Başlatma Zamanı:',
         Command: 'Komut',
@@ -355,6 +355,20 @@ var translations = {
 
 // Init Debug
 initDebug();
+
+function getPlannerTarget() {
+    const $contentContainer = jQuery('#contentContainer');
+    if ($contentContainer.length) {
+        return { mode: 'prepend', $el: $contentContainer };
+    }
+
+    const $contentValue = jQuery('#content_value');
+    if ($contentValue.length) {
+        return { mode: 'before', $el: $contentValue };
+    }
+
+    return { mode: 'prepend', $el: jQuery('body') };
+}
 
 // Fetch unit config only when needed
 if (LAST_UPDATED_TIME !== null) {
@@ -552,8 +566,14 @@ function renderUI(body) {
         </style>
     `;
 
+    const target = getPlannerTarget();
+
     if (jQuery('.ra-single-village-planner').length < 1) {
-        jQuery('#contentContainer').prepend(content);
+        if (target.mode === 'before') {
+            target.$el.before(content);
+        } else {
+            target.$el.prepend(content);
+        }
     } else {
         jQuery('.ra-single-village-planner-data').html(body);
     }
